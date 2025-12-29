@@ -19,7 +19,7 @@ body {
   overflow-x: hidden;
 }
 
-/* ================= BACKGROUND GIF FULLSCREEN ================= */
+/* ================= BACKGROUND ================= */
 .bg-gif {
   position: fixed;
   inset: 0;
@@ -27,7 +27,6 @@ body {
   z-index: -3;
 }
 
-/* DARK OVERLAY */
 .bg-overlay {
   position: fixed;
   inset: 0;
@@ -54,7 +53,6 @@ nav {
 
 nav h2 {
   font-weight: 700;
-  letter-spacing: 1px;
 }
 
 nav ul {
@@ -73,7 +71,6 @@ nav a:hover {
   color: #ffb7d5;
 }
 
-/* SEARCH BAR */
 .search-box {
   background: rgba(255,255,255,0.15);
   padding: 6px 14px;
@@ -81,9 +78,9 @@ nav a:hover {
 }
 
 .search-box input {
+  background: transparent;
   border: none;
   outline: none;
-  background: transparent;
   color: white;
 }
 
@@ -104,11 +101,20 @@ section {
 .home h1 {
   font-size: 4.5rem;
   font-weight: 800;
-  animation: fadeUp 1.2s ease;
 }
 
-.home span {
+/* FLOATING NAME */
+.floating-name {
+  display: inline-block;
   color: #ffb7d5;
+  animation: floatName 3s ease-in-out infinite;
+  text-shadow: 0 0 15px rgba(255,183,213,0.8);
+}
+
+@keyframes floatName {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+  100% { transform: translateY(0); }
 }
 
 .home p {
@@ -117,15 +123,31 @@ section {
   opacity: 0.9;
 }
 
-/* AUDIO */
+/* ===== GLASS AUDIO BUTTON ===== */
 .audio-controls {
   margin-top: 40px;
 }
 
-.audio-controls button,
-.audio-controls input {
-  margin: 6px;
+.audio-btn {
+  padding: 14px 30px;
+  border-radius: 40px;
+  border: none;
   cursor: pointer;
+  font-size: 1rem;
+  color: white;
+  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 0 20px rgba(255, 183, 213, 0.4);
+  transition: 0.3s;
+}
+
+.audio-btn:hover {
+  transform: scale(1.1);
+  background: rgba(255, 183, 213, 0.35);
+}
+
+.audio-controls input {
+  margin-left: 15px;
 }
 
 /* GLASS SECTIONS */
@@ -135,10 +157,9 @@ section {
   border-radius: 25px;
   padding: 60px;
   text-align: center;
-  animation: fadeUp 1s ease;
 }
 
-/* EXPLORE CARDS */
+/* CARDS */
 .cards {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -166,28 +187,14 @@ section {
   color: #ffb7d5;
   text-decoration: none;
 }
-
-/* ANIMATION */
-@keyframes fadeUp {
-  from {
-    opacity: 0;
-    transform: translateY(40px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
 </style>
 </head>
 
 <body>
 
-<!-- BACKGROUND -->
 <div class="bg-gif"></div>
 <div class="bg-overlay"></div>
 
-<!-- NAV -->
 <nav>
   <h2>VATSAL</h2>
   <ul>
@@ -201,32 +208,25 @@ section {
   </div>
 </nav>
 
-<!-- HOME -->
 <section id="home" class="home">
   <div>
-    <h1>Hi, I'm <span>Vatsal Varma</span></h1>
-    <p>A web developer creating websites for fun 🚀</p>
+    <h1>Hi, I'm <span class="floating-name">Vatsal Varma</span></h1>
+    <p>A web developer creating websites for fun 🖤</p>
 
     <div class="audio-controls">
-      <button onclick="toggleMusic()">🎵 Play / Pause</button>
+      <button class="audio-btn" onclick="toggleMusic()">🎵 Play / Pause</button>
       <input type="range" min="0" max="1" step="0.01" onchange="setVolume(this.value)">
     </div>
   </div>
 </section>
 
-<!-- ABOUT -->
 <section id="about">
   <div class="glass">
     <h2>About Me</h2>
-    <p>
-      I design and build modern websites with smooth animations, clean UI,
-      and creative interactions. I enjoy experimenting with design,
-      performance and user experience.
-    </p>
+    <p>I build modern, smooth and creative web experiences.</p>
   </div>
 </section>
 
-<!-- EXPLORE -->
 <section id="explore">
   <div class="glass">
     <h2>Explore Seasons</h2>
@@ -239,17 +239,15 @@ section {
   </div>
 </section>
 
-<!-- CONTACT -->
 <section id="contact">
   <div class="glass">
     <h2>Contact</h2>
-    <a href="https://github.com/" target="_blank">GitHub</a>
-    <a href="https://linkedin.com/" target="_blank">LinkedIn</a>
+    <a href="#">GitHub</a>
+    <a href="#">LinkedIn</a>
     <a href="mailto:yourmail@gmail.com">Gmail</a>
   </div>
 </section>
 
-<!-- AUDIO -->
 <audio id="bgMusic" loop>
   <source src="Finding Her(KoshalWorld.Com).mp3" type="audio/mpeg">
 </audio>
@@ -258,8 +256,11 @@ section {
 const music = document.getElementById("bgMusic");
 
 function toggleMusic() {
-  if (music.paused) music.play();
-  else music.pause();
+  if (music.paused) {
+    music.play();
+  } else {
+    music.pause();
+  }
 }
 
 function setVolume(v) {
